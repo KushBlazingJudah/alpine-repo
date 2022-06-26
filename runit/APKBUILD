@@ -3,7 +3,7 @@
 # Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
 pkgname=runit
 pkgver=2.1.2
-pkgrel=0
+pkgrel=6
 pkgdesc="UNIX init scheme with service supervision"
 url="http://smarden.org/runit/"
 arch="all"
