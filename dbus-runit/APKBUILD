@@ -1,0 +1,31 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+
+_pkgname=dbus
+_daemon=$_pkgname
+
+pkgname=$_pkgname-runit
+pkgver=1.0
+pkgrel=0
+pkgdesc="Runit service script for ${pkgname%-*}"
+url="https://github.com/KushBlazingJudah/alpine-repo"
+arch="noarch"
+license="MIT"
+depends="runit"
+makedepends=""
+options="!check"
+source="$_daemon.runit"
+install_if="runit $_pkgname"
+builddir="$srcdir/"
+
+build() {
+	:
+}
+
+package() {
+	install -m755 -d "$pkgdir/etc/sv/$_daemon"
+	install -m755 "$srcdir/$_daemon.runit" "$pkgdir/etc/sv/$_daemon/run"
+}
+
+sha512sums="
+5261b70cb47f293799ce6f5e6524739364fcce936b93ba4c634c4461192b202eacb9274395e025fdc6ab59060134c57a5d8bc280616ed918dda4f1ec80eae0c4  dbus.runit
+"

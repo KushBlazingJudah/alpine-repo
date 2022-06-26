@@ -1,0 +1,28 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=wsj-dmenu
+pkgver=5.1
+pkgrel=0
+pkgdesc="WSJ's build of dmenu"
+provides="dmenu"
+url="https://github.com/KushBlazingJudah/dmenu"
+arch="all"
+license="MIT/X"
+depends=""
+makedepends="libx11-dev freetype-dev libxinerama-dev libxft-dev"
+options="!check"
+subpackages="$pkgname-doc"
+_commit=2ac2428e6a0a5c25f63a226f9926b9a7e0455f65
+source="https://github.com/KushBlazingJudah/dmenu/archive/$_commit.tar.gz"
+builddir="$srcdir/dmenu-$_commit"
+
+build() {
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" PREFIX="/usr" install
+}
+
+sha512sums="
+2d91f4f8cebced563d4d633d8c3049be7001263965194bce57ee06a7b3411b48e6f654920a94342b58d3cfc0cde73b60c87788b82df7bb404972b67c5edfd39d  2ac2428e6a0a5c25f63a226f9926b9a7e0455f65.tar.gz
+"

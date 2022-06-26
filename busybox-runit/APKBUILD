@@ -1,0 +1,39 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+
+_pkgname=busybox
+
+pkgname=$_pkgname-runit
+pkgver=1.0
+pkgrel=0
+pkgdesc="Runit service scripts for ${pkgname%-*}"
+url="https://github.com/KushBlazingJudah/alpine-repo"
+arch="noarch"
+license="MIT"
+depends="runit"
+makedepends=""
+options="!check"
+source="crond.runit
+	klogd.runit
+	ntpd.runit
+	syslogd.runit
+"
+install_if="runit $_pkgname"
+builddir="$srcdir/"
+
+build() {
+	:
+}
+
+package() {
+	for i in crond klogd ntpd syslogd; do
+		install -m755 -d "$pkgdir/etc/sv/busybox-$i"
+		install -m755 "$srcdir/$i.runit" "$pkgdir/etc/sv/busybox-$i/run"
+	done
+}
+
+sha512sums="
+7bc19e07af3927db6059d48a561d30a0458f888e7c30c88ac96c69effaceca46029da75448d70e2a2c51dfa1b4346786fa6e642c3cbef3e5377f00b577534914  crond.runit
+a579baccc1cfaad9a9332e402dbeaabda70f3efd10d158dd22fe19739b4bd8a41061836418b38862d703531f8699aa30c9c4e2b775dbb20c37249455615cc6bb  klogd.runit
+fde29bdc5c1f29e024c625a14fb0e8b0c2f7b61450df45e69d35ad7a59dbb9f476e69c99bbf1ab7c153692bc4b6b81a2f1554db00ae96e55e4f1874caa8ef51c  ntpd.runit
+52e2b4da3e7e3cc5d1209ba0a89b8b4fb53d71b7899c13f0960b61ed5f139bb8d94ae0a4bfdb609a49b0a0c2df12f25f88754c172424addb99bc0ce3c81f59ba  syslogd.runit
+"

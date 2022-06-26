@@ -1,0 +1,34 @@
+# Contributor: Natanael Copa <ncopa@alpinelinux.org>
+# Contributor: Stuart Cardall <developer@it-offshore.co.uk>
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=runit
+pkgver=2.1.2
+pkgrel=0
+pkgdesc="UNIX init scheme with service supervision"
+url="http://smarden.org/runit/"
+arch="all"
+license="BSD"
+subpackages="$pkgname-doc"
+_commit=2b8000f1ebd07fd68ee0e3c32737d97bcd1687fb
+source="https://github.com/void-linux/runit/archive/$_commit.tar.gz"
+builddir="$srcdir/runit-$_commit/src"
+options="!check"
+
+build() {
+	make
+}
+
+package() {
+	install -d "$pkgdir"/sbin
+	for i in chpst runit runit-init runsv runsvchdir runsvdir sv svlogd utmpset; do
+		install -m755 "$i" "$pkgdir"/sbin/$i
+	done
+	install -d "$pkgdir"/usr/share/man/man8
+	cd .. && cp -rf man/* "$pkgdir"/usr/share/man/man8/
+	mkdir -p "$pkgdir"/etc/sv "$pkgdir/var"
+	ln -s ../run/runit/runsvdir/current "$pkgdir/var/service"
+}
+
+sha512sums="
+6abe3845b59cf5a3c9a484fddf15b5e625d7540d3a1e34f56d1f058bd9572e88024531093f84c00e4654954508c8f4e63a3fba794a3bcf236e4986e60552e752  2b8000f1ebd07fd68ee0e3c32737d97bcd1687fb.tar.gz
+"

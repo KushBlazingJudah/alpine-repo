@@ -1,0 +1,2 @@
+#!/bin/sh -e
+exec /bin/busybox crond -f -c /etc/crontabs >/dev/null 2>&1

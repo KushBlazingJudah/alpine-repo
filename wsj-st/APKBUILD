@@ -1,0 +1,32 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=wsj-st
+pkgver=0.8.5
+pkgrel=0
+pkgdesc="WSJ's build of st"
+url="https://github.com/KushBlazingJudah/st"
+arch="all"
+license="MIT/X"
+depends="ncurses-terminfo-base"
+makedepends="fontconfig-dev freetype-dev libx11-dev libxext-dev libxft-dev harfbuzz-dev"
+subpackages="$pkgname-doc"
+_commit=5aa9d510e87b1b834273e557a1fa193548c9062d
+source="https://github.com/KushBlazingJudah/st/archive/$_commit.tar.gz"
+builddir="$srcdir/st-$_commit"
+options="!check"
+
+prepare() {
+	default_prepare
+	sed -i '/tic/d' Makefile
+}
+
+build() {
+	make
+}
+
+package() {
+	make install PREFIX=/usr DESTDIR="$pkgdir"
+}
+
+sha512sums="
+72bdaee1bea52198758f9099093220e9afd122f4ce93555556a24ab7018abae197250305d7ab8a6281dcece5faeeb0255b9976a738b30f0a0efc61987feec124  5aa9d510e87b1b834273e557a1fa193548c9062d.tar.gz
+"

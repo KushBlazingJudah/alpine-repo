@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /bin/busybox ntpd -Nn -p pool.ntp.org

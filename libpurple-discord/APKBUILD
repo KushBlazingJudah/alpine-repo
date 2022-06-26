@@ -1,0 +1,27 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=libpurple-discord
+pkgver=0.0.0_git20220514
+pkgrel=0
+pkgdesc="Discord support for libpurple"
+url="https://github.com/EionRobb/purple-discord"
+arch="all"
+license="GPL-3.0"
+depends="libpurple json-glib libqrencode"
+makedepends="pidgin-dev json-glib-dev nss-dev libqrencode-dev imagemagick"
+subpackages="$pkgname-lang"
+options="!check"
+_commit=5502309b0d9727a1dbb88f3551d5a58679c8257e
+source="https://github.com/EionRobb/purple-discord/archive/${_commit}.zip"
+builddir="${srcdir}/purple-discord-${_commit}"
+
+build() {
+	make
+}
+
+package() {
+	make DESTDIR="${pkgdir}" install
+}
+
+sha512sums="
+4b1d84dad48fd7cf8b4df725f3301bf16f593457c5b6c6b072486b2a2332a19b17e5bf6f8fcd619a88aba9a1771eb7f58a0e9d473fadbb09f78018a83f3c0423  5502309b0d9727a1dbb88f3551d5a58679c8257e.zip
+"

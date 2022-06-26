@@ -1,0 +1,31 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=runit-initscripts
+pkgver=1.0
+pkgrel=0
+pkgdesc="Init scripts for runit"
+url="https://github.com/KushBlazingJudah/alpine-runit"
+arch="all"
+license="MIT"
+depends="runit procps"
+makedepends="linux-headers"
+conflicts="busybox-initscripts"
+_commit="a037cd500c1bdc8dcf5cf4a09dc187613f768362"
+source="https://github.com/KushBlazingJudah/alpine-runit/archive/$_commit.tar.gz"
+builddir="$srcdir/alpine-runit-$_commit"
+options="!check"
+
+build() {
+	make
+}
+
+package() {
+	make PREFIX=/ DESTDIR="$pkgdir" install
+	mkdir -p "$pkgdir/sbin"
+
+	# Use runit-init as system init 
+	ln -s runit-init "$pkgdir/sbin/init"	
+}
+
+sha512sums="
+90c51c68b5bac2d38d4faa20eabdd7e52fe45b6cb4f7497e1daed5546609165d8a62932cfd5d72587fba0d24d08065fc5165574aeb25e3e03b96134107dbba4d  a037cd500c1bdc8dcf5cf4a09dc187613f768362.tar.gz
+"
