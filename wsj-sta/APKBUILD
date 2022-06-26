@@ -1,0 +1,28 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=wsj-sta
+pkgver=1.0
+pkgrel=0
+pkgdesc="WSJ's build of sta"
+url="https://github.com/KushBlazingJudah/sta"
+arch="all"
+license="MIT"
+depends=""
+makedepends="libx11-dev libnotify-dev"
+options="!check"
+_commit=aa03b51e284d157ccd0a2a3cabbb0a02ba525825
+source="https://github.com/KushBlazingJudah/sta/archive/$_commit.tar.gz"
+builddir="$srcdir/sta-$_commit"
+
+build() {
+	make
+}
+
+package() {
+	for i in sta stan stax; do
+		install -D -m755 "$i" "$pkgdir/usr/bin/$i"
+	done
+}
+
+sha512sums="
+eee93b244bf78d42b46cf564d7d97d4f2684f41f214f78c4c4c7e0c20cc91df5105697266c7dfe344cfd687fe607260d62dff0ad9eb788a87b3cb3a688a2791e  aa03b51e284d157ccd0a2a3cabbb0a02ba525825.tar.gz
+"
