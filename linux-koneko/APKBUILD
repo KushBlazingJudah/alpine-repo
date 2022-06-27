@@ -1,0 +1,160 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+
+_flavor=koneko
+pkgname=linux-${_flavor}
+pkgver=5.15.50
+case $pkgver in
+	*.*.*)	_kernver=${pkgver%.*};;
+	*.*) _kernver=$pkgver;;
+esac
+pkgrel=0
+pkgdesc="Linux lts kernel"
+url="https://www.kernel.org"
+depends="initramfs-generator"
+_depends_dev="perl gmp-dev mpc1-dev mpfr-dev elfutils-dev bash flex bison zstd"
+makedepends="$_depends_dev sed installkernel bc linux-headers
+	linux-firmware-amdgpu linux-firmware-rtw88 openssl1.1-compat-dev mawk diffutils
+	findutils zstd"
+options="!strip !check"
+install=
+source="https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/linux-$_kernver.tar.xz
+	config
+	"
+subpackages="$pkgname-dev:_dev:$CBUILD_ARCH"
+
+if [ "${pkgver%.0}" = "$pkgver" ]; then
+	source="$source
+	https://cdn.kernel.org/pub/linux/kernel/v${pkgver%%.*}.x/patch-$pkgver.xz"
+fi
+arch="x86_64"
+license="GPL-2.0"
+
+_prepareconfig() {
+	local _builddir="$srcdir"/build
+	mkdir -p "$_builddir"
+	echo "-$pkgrel-$_flavor" > "$_builddir"/localversion-alpine \
+		|| return 1
+
+	cp "$srcdir"/config "$_builddir"/.config
+	msg "Configuring $_flavor kernel ($_arch)"
+	make -C "$srcdir"/linux-$_kernver \
+		O="$_builddir" \
+		ARCH="$arch" \
+		olddefconfig
+}
+
+# this is supposed to be run before version is bumped so we can compare
+# what new kernel config knobs are introduced
+prepareupdate() {
+	clean && fetch && unpack && prepare && deps
+	_prepareconfig
+	rm -r "$srcdir"/linux-$_kernver
+}
+
+updateconfig() {
+	if ! [ -d "$srcdir"/linux-$_kernver ]; then
+		deps && fetch && unpack && prepare
+	fi
+
+	local _builddir="$srcdir"/build
+	mkdir -p "$_builddir"
+	echo "-$pkgrel-$_flavor" > "$_builddir"/localversion-alpine
+	local actions="listnewconfig oldconfig"
+	if ! [ -f "$_builddir"/.config ]; then
+		cp "$srcdir"/config "$_builddir"/.config
+		actions="olddefconfig"
+		env | grep ^CONFIG_ >> "$_builddir"/.config || true
+	fi
+	make -j1 -C "$srcdir"/linux-$_kernver \
+		O="$_builddir" \
+		ARCH="$_arch" \
+		$actions savedefconfig
+
+	cp "$_builddir"/defconfig "$startdir"/config
+}
+
+build() {
+	unset LDFLAGS
+	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+	_prepareconfig
+
+	msg "Building $i kernel"
+	cd "$srcdir"/build
+	make ARCH="$CARCH" \
+		CC="${CC:-gcc}" \
+		AWK="${AWK:-mawk}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1))-Alpine"
+}
+
+package() {
+	depends="$depends linux-firmware-any"
+
+	local _abi_release=${pkgver}-${pkgrel}-${_flavor}
+	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+
+	cd "$srcdir"/build
+
+	mkdir -p "$pkgdir"/boot
+
+	make -j1 install \
+		ARCH="$CARCH" \
+		INSTALL_PATH="$pkgdir"/boot
+
+	rm -rf "$pkgdir"/lib/firmware
+
+	install -D -m644 include/config/kernel.release \
+		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
+}
+
+_dev() {
+	local _abi_release=${pkgver}-${pkgrel}-$_flavor
+	# copy the only the parts that we really need for build 3rd party
+	# kernel modules and install those as /usr/src/linux-headers,
+	# simlar to what ubuntu does
+	#
+	# this way you dont need to install the 300-400 kernel sources to
+	# build a tiny kernel module
+	#
+	pkgdesc="Headers and script for third party modules for $_flavor kernel"
+	depends="$_depends_dev"
+	local dir="$subpkgdir"/usr/src/linux-headers-${_abi_release}
+	export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+
+	# first we import config, run prepare to set up for building
+	# external modules, and create the scripts
+	mkdir -p "$dir"
+	local _builddir="$srcdir"/build
+	cp -a "$_builddir"/.config "$_builddir"/localversion-alpine \
+		"$dir"/
+
+	make -j1 -C "$srcdir"/linux-$_kernver \
+		O="$dir" \
+		ARCH="$CARCH" \
+		prepare scripts
+
+	# remove the stuff that points to real sources. we want 3rd party
+	# modules to believe this is the soruces
+	rm "$dir"/Makefile "$dir"/source
+
+	# copy the needed stuff from real sources
+	#
+	# this is taken from ubuntu kernel build script
+	# http://kernel.ubuntu.com/git/ubuntu/ubuntu-zesty.git/tree/debian/rules.d/3-binary-indep.mk
+	cd "$srcdir"/linux-$_kernver
+	find .  -path './include/*' -prune \
+		-o -path './scripts/*' -prune -o -type f \
+		\( -name 'Makefile*' -o -name 'Kconfig*' -o -name 'Kbuild*' -o \
+		   -name '*.sh' -o -name '*.pl' -o -name '*.lds' -o -name 'Platform' \) \
+		-print | cpio -pdm "$dir"
+
+	cp -a scripts include "$dir"
+
+	find $(find arch -name include -type d -print) -type f \
+		| cpio -pdm "$dir"
+}
+
+sha512sums="
+d25ad40b5bcd6a4c6042fd0fd84e196e7a58024734c3e9a484fd0d5d54a0c1d87db8a3c784eff55e43b6f021709dc685eb0efa18d2aec327e4f88a79f405705a  linux-5.15.tar.xz
+fa2fe3e06db236296005f5ddc32353162ac74f61b938973ace6d14e4646f0fe188e0dd9eb2e9c671ea4ea47d9079d2f5686ffb9e8c3d21d2591f341169ec09da  config
+674fbb7c8fa519c4bb3d536995f4eab35eda9d4af878a188e60365ae73854ab3beb848a8d82a8880d0c2d0c53b3048cc910d215a7eab957920137d2476c237e4  patch-5.15.50.xz
+"

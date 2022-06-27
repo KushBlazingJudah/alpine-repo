@@ -1,0 +1,6 @@
+This is the configuration for my primary machine, koneko.
+It is a Lenovo IdeaPad Flex 5 14ARE05 81X2.
+
+Notes:
+- No support for modules
+- Only supports zstd compression
