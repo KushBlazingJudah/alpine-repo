@@ -1,0 +1,36 @@
+# Contributor: Sören Tempel <soeren+alpine@soeren-tempel.net>
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=wsj-slock
+pkgver=1.4
+pkgrel=0
+pkgdesc="WSJ's build of slock"
+url="https://github.com/KushBlazingJudah/slock"
+arch="all"
+license="MIT"
+makedepends="libxext-dev libxrandr-dev linux-headers"
+options="suid"
+subpackages="$pkgname-doc"
+_commit=124d5bc3b63ef163d8d0d129bab27c7a06cef558
+source="https://github.com/KushBlazingJudah/slock/archive/$_commit.tar.gz"
+builddir="$srcdir/slock-$_commit"
+
+prepare() {
+	default_prepare
+	sed -i -e '/CFLAGS/{s/-Os//;s/=/+=/}' \
+		-e '/LDFLAGS/{s/-s//;s/=/+=/}' \
+		"$builddir"/config.mk
+}
+
+build() {
+	make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11 \
+		-C "$builddir"
+}
+
+package() {
+	make PREFIX=/usr DESTDIR="$pkgdir" \
+		-C "$builddir" install
+}
+
+sha512sums="
+6e2ea802b725e82a5eab885ba7e1239fd3d07c88b998e38e813211235b67d77256f4cb0c09f69987ccae544bc3d183e5e8051d84329ce7adee45ce6a8c11b3e2  124d5bc3b63ef163d8d0d129bab27c7a06cef558.tar.gz
+"
