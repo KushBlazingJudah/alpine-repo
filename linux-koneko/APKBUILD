@@ -7,7 +7,7 @@ case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
 esac
-pkgrel=0
+pkgrel=1
 pkgdesc="Linux lts kernel"
 url="https://www.kernel.org"
 depends="initramfs-generator"
@@ -155,6 +155,6 @@ _dev() {
 
 sha512sums="
 d25ad40b5bcd6a4c6042fd0fd84e196e7a58024734c3e9a484fd0d5d54a0c1d87db8a3c784eff55e43b6f021709dc685eb0efa18d2aec327e4f88a79f405705a  linux-5.15.tar.xz
-fa2fe3e06db236296005f5ddc32353162ac74f61b938973ace6d14e4646f0fe188e0dd9eb2e9c671ea4ea47d9079d2f5686ffb9e8c3d21d2591f341169ec09da  config
+a86e1431f68e544927e18095d255279461c2d7cdc7b2b77ec782666870eff90bce7cf517121170603b6ffe2b7e6afda13c50cfddc559bca6f42b0494e2079ca4  config
 674fbb7c8fa519c4bb3d536995f4eab35eda9d4af878a188e60365ae73854ab3beb848a8d82a8880d0c2d0c53b3048cc910d215a7eab957920137d2476c237e4  patch-5.15.50.xz
 "
