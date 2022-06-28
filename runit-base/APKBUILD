@@ -1,0 +1,24 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=runit-base
+pkgver=1.0
+pkgrel=0
+pkgdesc="Runit base metapackage to use in place of alpine-base"
+url="https://github.com/KushBlazingJudah/alpine-runit"
+arch="noarch"
+license="MIT"
+depends="alpine-baselayout apk-tools busybox busybox-suid libc-utils alpine-keys runit runit-initscripts"
+builddir="$srcdir/"
+
+build() {
+	# Replace with proper build command(s)
+	:
+}
+
+check() {
+	# Replace with proper check command(s)
+	:
+}
+
+package() {
+	mkdir -p "$pkgdir"
+}
