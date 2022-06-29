@@ -2,18 +2,19 @@
 
 _flavor=koneko
 pkgname=linux-${_flavor}
-pkgver=5.15.50
+pkgver=5.15.51
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
 esac
-pkgrel=1
+pkgrel=0
 pkgdesc="Linux lts kernel"
 url="https://www.kernel.org"
-depends="initramfs-generator"
+_fw="linux-firmware-amdgpu linux-firmware-rtw88 amd-ucode"
+depends="initramfs-generator $_fw"
 _depends_dev="perl gmp-dev mpc1-dev mpfr-dev elfutils-dev bash flex bison zstd"
 makedepends="$_depends_dev sed installkernel bc linux-headers
-	linux-firmware-amdgpu linux-firmware-rtw88 openssl1.1-compat-dev mawk diffutils
+	$_fw openssl1.1-compat-dev mawk diffutils
 	findutils zstd"
 options="!strip !check"
 install=
@@ -67,7 +68,7 @@ updateconfig() {
 	fi
 	make -j1 -C "$srcdir"/linux-$_kernver \
 		O="$_builddir" \
-		ARCH="$_arch" \
+		ARCH="$arch" \
 		$actions savedefconfig
 
 	cp "$_builddir"/defconfig "$startdir"/config
@@ -155,6 +156,6 @@ _dev() {
 
 sha512sums="
 d25ad40b5bcd6a4c6042fd0fd84e196e7a58024734c3e9a484fd0d5d54a0c1d87db8a3c784eff55e43b6f021709dc685eb0efa18d2aec327e4f88a79f405705a  linux-5.15.tar.xz
-a86e1431f68e544927e18095d255279461c2d7cdc7b2b77ec782666870eff90bce7cf517121170603b6ffe2b7e6afda13c50cfddc559bca6f42b0494e2079ca4  config
-674fbb7c8fa519c4bb3d536995f4eab35eda9d4af878a188e60365ae73854ab3beb848a8d82a8880d0c2d0c53b3048cc910d215a7eab957920137d2476c237e4  patch-5.15.50.xz
+53d427d1f2f51fa455add8f06b4af8b650b60129698e52391eed0388edfb58e0c735e84aa522759de136e5f1d89fca4722ca480d4d8333959495d3d6ccbf9701  config
+82b656f0ae343db32e8300bdac413bb1a81ab05615c86f725b8c57b1eea54827f021b1ea0d8d1ae0f5e767e85b9898282d39f8742443a1b360c85e51f6abae9e  patch-5.15.51.xz
 "
