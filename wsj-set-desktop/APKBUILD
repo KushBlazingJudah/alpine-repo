@@ -1,0 +1,85 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=wsj-set-desktop
+pkgver=1.0
+pkgrel=1
+pkgdesc="Meta package for desktop stuff"
+url="https://github.com/KushBlazingJudah/alpine-repo"
+arch="noarch"
+license="MIT"
+depends="
+	aerc
+	alsa-utils
+	brightnessctl
+	dbus-x11
+	dunst
+	elogind
+	ffmpeg
+	gpg
+	gpg-agent
+	gst-plugins-base
+	gst-plugins-good
+	hsetroot
+	ibus
+	ibus-anthy
+	imagemagick
+	imv
+	isync
+	luakit
+	mpc
+	mpd
+	mpv
+	msmtp
+	ncmpcpp
+	newsboat
+	pass
+	pass-otp
+	picom
+	pipewire
+	pipewire-alsa
+	pipewire-pulse
+	polkit
+	redshift
+	rtkit
+	syncthing
+	unclutter-xfixes
+	weechat
+	weechat-perl
+	weechat-python
+	wireplumber
+	wsj-dmenu
+	wsj-dwm
+	wsj-slock
+	wsj-st
+	wsj-sta
+	xclip
+	xinit
+	xrandr
+	xset
+	yt-dlp
+	zathura
+	zathura-pdf-mupdf
+	zathura-ps
+
+	font-croscore
+	font-iosevka-base
+	font-liberation
+	font-linux-libertine
+	font-noto-emoji
+	font-opensans
+	font-roboto
+	font-sarasa-gothic
+
+	wsj-set-tools
+	xorg-server
+"
+builddir="$srcdir/"
+options="!check"
+
+build() {
+	:
+}
+
+package() {
+	mkdir -p "$pkgdir"
+}
+

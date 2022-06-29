@@ -1,0 +1,39 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=wsj-set-tools
+pkgver=1.0
+pkgrel=1
+pkgdesc="Meta package for tools"
+url="https://github.com/KushBlazingJudah/alpine-repo"
+arch="noarch"
+license="MIT"
+depends="
+	curl
+	git
+	htop
+	lftp
+	links
+	lsblk
+	man-pages
+	man-pages-posix
+	mandoc
+	mosh
+	neovim
+	netcat-openbsd
+	openssh
+	ripgrep
+	rsync
+	screen
+	ts
+	zsh
+	zstd
+	"
+builddir="$srcdir/"
+options="!check"
+
+build() {
+	:
+}
+
+package() {
+	mkdir -p "$pkgdir"
+}

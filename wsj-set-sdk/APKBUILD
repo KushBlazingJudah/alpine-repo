@@ -1,0 +1,26 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=wsj-set-sdk
+pkgver=1.0
+pkgrel=1
+pkgdesc="Meta package for dev stuff"
+url="https://github.com/KushBlazingJudah/alpine-repo"
+arch="noarch"
+license="MIT"
+depends="
+	alpine-sdk
+	darkhttpd
+	jq
+	lowdown
+	shellcheck
+	"
+builddir="$srcdir/"
+options="!check"
+
+build() {
+	:
+}
+
+package() {
+	mkdir -p "$pkgdir"
+}
+
