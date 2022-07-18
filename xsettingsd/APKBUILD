@@ -1,0 +1,35 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=xsettingsd
+pkgver=1.0.2
+pkgrel=0
+pkgdesc="Provides settings to X11 applications via the XSETTINGS specification"
+url="https://github.com/derat/xsettingsd"
+arch="all"
+license="BSD-3-Clause"
+depends=""
+makedepends="cmake libx11-dev"
+options="!check" # doesn't work
+install=""
+subpackages="$pkgname-doc"
+source="https://github.com/derat/xsettingsd/archive/refs/tags/v$pkgver/xsettingsd-$pkgver.tar.gz"
+builddir="$srcdir/xsettingsd-$pkgver"
+
+prepare() {
+	mkdir build
+	cd build
+	cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+}
+
+build() {
+	cd build
+	make
+}
+
+package() {
+	cd build
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+da2a82d0b3f5061a1fad7632d800539f4e81bd3f8631dd724705d0601556c044c62da7469a974cbe8f6d8e070247493ac5776bac966cf36f1fae825562457baa  xsettingsd-1.0.2.tar.gz
+"
