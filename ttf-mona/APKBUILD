@@ -1,0 +1,26 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=ttf-mona
+pkgver=2.90
+pkgrel=0
+pkgdesc="Proportional Japanese font, an alternative to MS Gothic"
+url="http://monafont.sourceforge.net/"
+arch="noarch"
+license="custom"
+options="!check"
+source="
+	http://downloads.sourceforge.net/monafont/monafont-ttf-$pkgver.zip
+	license.txt
+"
+builddir="$srcdir/"
+
+package() {
+	install -d "${pkgdir}/usr/share/fonts/TTF"
+	install -m644 mona.ttf "${pkgdir}/usr/share/fonts/TTF/"
+	install -d "${pkgdir}/usr/share/licenses/${pkgname}"
+	install -m644 license.txt "${pkgdir}/usr/share/licenses/${pkgname}/license.txt"
+}
+
+sha512sums="
+0cb0ddf13f398f8504d387e590748c8bf44f01f672eb1f1bffac7c3e027f730ea0e7db41d10727beaf42d26e10e2e518c686669bcdc33a7113343863e49a0a55  monafont-ttf-2.90.zip
+eaae4ad9fa4c30a4949474b39175cb9ef52900da6590d3e572ce6a1f43dddf297ae6d4750c88bbb937d8c20edbae81a47882304803cd7073bb57c27f621054db  license.txt
+"
