@@ -1,7 +1,7 @@
 # Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
 pkgname=wsj-sta
 pkgver=1.0
-pkgrel=1
+pkgrel=3
 pkgdesc="WSJ's build of sta"
 url="https://github.com/KushBlazingJudah/sta"
 arch="all"
@@ -9,7 +9,7 @@ license="MIT"
 depends=""
 makedepends="libx11-dev libnotify-dev"
 options="!check"
-_commit=cb5af8a9c1fa26468f0dd77d6760ccb1aca69b02
+_commit=1f17c5742a9d9283b10c012b9701c465e41f7392
 source="https://github.com/KushBlazingJudah/sta/archive/$_commit.tar.gz"
 builddir="$srcdir/sta-$_commit"
 
@@ -24,5 +24,5 @@ package() {
 }
 
 sha512sums="
-18d783059fd6aa30d9bf023f4023039c81dd63235137043c13a740a5b67c0fd3b6b8c7e0d0cc93611070f432b048ed7b2f91523c3a245f353bcf093af00e2ff7  cb5af8a9c1fa26468f0dd77d6760ccb1aca69b02.tar.gz
+ee3b00dad857b6dd380a57807c489d9440072608369d2b6f19cfd3555722406bc1e0c6fb96e3f0890794b05d3aeeb62e145ec7e93fc0e5abea9f0b60d7f51317  1f17c5742a9d9283b10c012b9701c465e41f7392.tar.gz
 "
