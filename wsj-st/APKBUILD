@@ -1,7 +1,7 @@
 # Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
 pkgname=wsj-st
 pkgver=0.8.5
-pkgrel=0
+pkgrel=1
 pkgdesc="WSJ's build of st"
 url="https://github.com/KushBlazingJudah/st"
 arch="all"
@@ -9,7 +9,7 @@ license="MIT/X"
 depends="ncurses-terminfo-base"
 makedepends="fontconfig-dev freetype-dev libx11-dev libxext-dev libxft-dev harfbuzz-dev"
 subpackages="$pkgname-doc"
-_commit=5aa9d510e87b1b834273e557a1fa193548c9062d
+_commit=be1bb7d0bb4d581596d9345de1c239e9c0ecaa2d
 source="https://github.com/KushBlazingJudah/st/archive/$_commit.tar.gz"
 builddir="$srcdir/st-$_commit"
 options="!check"
@@ -28,5 +28,5 @@ package() {
 }
 
 sha512sums="
-72bdaee1bea52198758f9099093220e9afd122f4ce93555556a24ab7018abae197250305d7ab8a6281dcece5faeeb0255b9976a738b30f0a0efc61987feec124  5aa9d510e87b1b834273e557a1fa193548c9062d.tar.gz
+f09e69b4e9fa9b49e4430f426394fac2452cffa0f37fc3649901d0a4bf8470c9a858ecf4df4d06de034ce38f12badf5f67f3bc9af63d0e837244f0569bdd1922  be1bb7d0bb4d581596d9345de1c239e9c0ecaa2d.tar.gz
 "
