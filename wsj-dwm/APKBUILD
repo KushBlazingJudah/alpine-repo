@@ -1,7 +1,7 @@
 # Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
 pkgname=wsj-dwm
 pkgver=6.3
-pkgrel=2
+pkgrel=3
 pkgdesc="WSJ's build of dwm"
 url="https://github.com/KushBlazingJudah/dwm"
 arch="all"
@@ -10,7 +10,7 @@ depends=""
 makedepends="libxft-dev libx11-dev libxinerama-dev libxcb-dev"
 options="!check"
 subpackages="$pkgname-doc"
-_commit=1fc4df190639801ec1c3efe2d5ef63318233674e
+_commit=d30a1b470d4dd347d80a2b43e4225fb090906fcd
 source="https://github.com/KushBlazingJudah/dwm/archive/$_commit.tar.gz"
 builddir="$srcdir/dwm-$_commit"
 
@@ -23,5 +23,5 @@ package() {
 }
 
 sha512sums="
-4415787a52bb19502de7f2cb115f1e48c8585043c2745d0da3b7ecf9abe715bc33a529794d67d4ee4353c98ee1d0057f2d2b84f154c1d94af7053b65fe769cb8  1fc4df190639801ec1c3efe2d5ef63318233674e.tar.gz
+2ec15745a5bba6cad061af6c68166c76cadda77d5e37b156f11452ae94381207a0fe39ed5f39420c425e1a060cfe3109070ef9fcfdd24eb6243420618bb43518  d30a1b470d4dd347d80a2b43e4225fb090906fcd.tar.gz
 "
