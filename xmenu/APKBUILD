@@ -1,0 +1,26 @@
+# Maintainer: WeedSmokingJew <weedsmokingjew@420blaze.it>
+pkgname=xmenu
+pkgver=4.5.5
+pkgrel=0
+pkgdesc="An X11 menu utility"
+url="https://github.com/phillbush/xmenu"
+arch="all"
+license="MIT/X"
+depends=""
+makedepends="imlib2-dev libx11-dev libxinerama-dev libxft-dev"
+options="!check"
+subpackages="$pkgname-doc"
+source="https://github.com/phillbush/xmenu/archive/refs/tags/v$pkgver/xmenu-$pkgver.tar.gz"
+builddir="$srcdir/xmenu-$pkgver"
+
+build() {
+	make PREFIX="/usr"
+}
+
+package() {
+	make PREFIX="/usr" DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+fb5f387e19991c790a0fcd54bcc750d7c2e5d42e6cbaed9183807d030da42765bbad2990e40476d73074ca02d5bcc88ba4379340bc5a01a30ae858288ed38c56  xmenu-4.5.5.tar.gz
+"

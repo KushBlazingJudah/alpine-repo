@@ -9,9 +9,18 @@ license="MIT"
 depends="
 	alpine-sdk
 	darkhttpd
+	gdb
+	go
+	hare
 	jq
 	lowdown
+	lua5.4
+	luacheck
 	shellcheck
+	sqlite
+	staticcheck
+	tokei
+	valgrind
 	"
 builddir="$srcdir/"
 options="!check"

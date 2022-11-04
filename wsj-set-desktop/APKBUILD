@@ -14,11 +14,15 @@ depends="
 	dunst
 	elogind
 	ffmpeg
+	firefox-esr
+	gimp
 	gpg
 	gpg-agent
 	gst-plugins-base
 	gst-plugins-good
 	hsetroot
+	hunspell
+	hunspell-en
 	ibus
 	ibus-anthy
 	imagemagick
@@ -40,6 +44,8 @@ depends="
 	polkit
 	redshift
 	rtkit
+	scrot
+	slop
 	syncthing
 	unclutter-xfixes
 	weechat
@@ -52,9 +58,12 @@ depends="
 	wsj-st
 	wsj-sta
 	xclip
+	xdotool
 	xinit
+	xmenu
 	xrandr
 	xset
+	xsetroot
 	yt-dlp
 	zathura
 	zathura-pdf-mupdf
@@ -68,6 +77,7 @@ depends="
 	font-opensans
 	font-roboto
 	font-sarasa-gothic
+	ttf-mona
 
 	wsj-set-tools
 	xorg-server

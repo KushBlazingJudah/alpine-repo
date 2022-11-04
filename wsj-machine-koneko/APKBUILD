@@ -7,17 +7,25 @@ url="https://wsmj.neocities.org"
 arch="x86_64"
 license="MIT"
 depends="
+	anki
 	btrfs-progs
 	cryptsetup
 	efibootmgr
 	grub
 	grub-efi
 	linux-koneko
+	lm-sensors
 	networkmanager
 	networkmanager-cli
 	networkmanager-tui
 	networkmanager-wifi
+	qemu-hw-display-qxl
+	qemu-img
+	qemu-system-x86_64
+	qemu-ui-gtk
 	runit-base
+	texlive
+	tor
 	tzdata
 	udev
 	wpa_supplicant

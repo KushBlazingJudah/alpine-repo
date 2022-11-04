@@ -2,7 +2,7 @@
 
 _flavor=koneko
 pkgname=linux-${_flavor}
-pkgver=5.15.51
+pkgver=5.15.64
 case $pkgver in
 	*.*.*)	_kernver=${pkgver%.*};;
 	*.*) _kernver=$pkgver;;
@@ -14,7 +14,7 @@ _fw="linux-firmware-amdgpu linux-firmware-rtw88 amd-ucode"
 depends="initramfs-generator $_fw"
 _depends_dev="perl gmp-dev mpc1-dev mpfr-dev elfutils-dev bash flex bison zstd"
 makedepends="$_depends_dev sed installkernel bc linux-headers
-	$_fw openssl1.1-compat-dev mawk diffutils
+	$_fw openssl-dev mawk diffutils
 	findutils zstd"
 options="!strip !check"
 install=
@@ -72,6 +72,37 @@ updateconfig() {
 		$actions savedefconfig
 
 	cp "$_builddir"/defconfig "$startdir"/config
+}
+
+prepare() {
+	local _patch_failed=
+	cd "$srcdir"/linux-$_kernver
+	if [ "$_kernver" != "$pkgver" ]; then
+		msg "Applying patch-$pkgver.xz"
+		unxz -c < "$srcdir"/patch-$pkgver.xz | patch -p1 -N
+	fi
+
+	# first apply patches in specified order
+	for i in $source; do
+		case $i in
+		*.patch)
+			msg "Applying $i..."
+			if ! patch -s -p1 -N -i "$srcdir"/$i; then
+				echo $i >>failed
+				_patch_failed=1
+			fi
+			;;
+		esac
+	done
+
+	if ! [ -z "$_patch_failed" ]; then
+		error "The following patches failed:"
+		cat failed
+		return 1
+	fi
+
+	# remove localversion from patch if any
+	rm -f localversion*
 }
 
 build() {
@@ -157,5 +188,5 @@ _dev() {
 sha512sums="
 d25ad40b5bcd6a4c6042fd0fd84e196e7a58024734c3e9a484fd0d5d54a0c1d87db8a3c784eff55e43b6f021709dc685eb0efa18d2aec327e4f88a79f405705a  linux-5.15.tar.xz
 53d427d1f2f51fa455add8f06b4af8b650b60129698e52391eed0388edfb58e0c735e84aa522759de136e5f1d89fca4722ca480d4d8333959495d3d6ccbf9701  config
-82b656f0ae343db32e8300bdac413bb1a81ab05615c86f725b8c57b1eea54827f021b1ea0d8d1ae0f5e767e85b9898282d39f8742443a1b360c85e51f6abae9e  patch-5.15.51.xz
+e36764dbf82fa8c067d0220ef4c863e2f0f972f0e500ad3ad01a827159238ce82ccabebf23049cfee6371dc2d1f7de25c7ce829b03951da1a82f659476c2fe06  patch-5.15.64.xz
 "
